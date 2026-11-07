@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steps: Goal Journal</title>
+<meta name="description" content="A one-line-a-day goal journal for iPhone.">
+<meta name="apple-itunes-app" content="app-id=6829796742">
+<style>
+:root{--bg:#16181B;--surface:#202327;--text:#EFF1F2;--text2:#A9B0B6;--accent:#A9C4DA}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--text);font:18px/1.55 -apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:480px;margin:0 auto;padding:48px 24px 56px;text-align:center}
+.icon{width:96px;height:96px;border-radius:22px;box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+h1{font:600 30px/1.2 -apple-system,system-ui,sans-serif;margin-top:20px;letter-spacing:-.3px}
+.sub{color:var(--text2);margin-top:6px}
+.q{font:500 30px/1.2 "New York",ui-serif,Georgia,serif;margin:36px 0 16px;letter-spacing:-.3px}
+p.body{color:var(--text);text-align:left}
+.badge{display:inline-block;margin-top:32px}
+.badge img{height:56px;display:block}
+.free{color:var(--text2);font-size:15px;margin-top:10px}
+.shot{width:100%;border-radius:28px;margin-top:40px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+footer{margin-top:40px;font-size:14px;color:var(--text2)}
+footer a{color:var(--accent)}
+</style>
+<main>
+  <img class="icon" src="assets/icon.png" alt="Steps app icon">
+  <h1>Steps: Goal Journal</h1>
+  <p class="sub">A one-line-a-day goal journal for iPhone.</p>
+  <p class="q">Did you take a step forward today?</p>
+  <p class="body">Every evening Steps asks whether you moved your goal forward, and you write down in one sentence what you actually did. Once it&rsquo;s written down, it&rsquo;s hard to fool yourself, and months later you can read back how you got there.</p>
+  <a class="badge" id="get" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8"><img src="assets/badge.svg" alt="Download on the App Store"></a>
+  <p class="free">Free on iPhone.</p>
+  <img class="shot" src="assets/journal.jpg" alt="A day in the Steps journal: three goals, two sentences and one Not today.">
+  <footer><a href="https://sebastien-grdn.github.io/steps-site/support.html">Support</a> · <a href="https://sebastien-grdn.github.io/steps-site/privacy.html">Privacy</a></footer>
+</main>
+<script>
+// Keeps the ad's campaign token (ct) on the App Store link so App Store Connect counts downloads per ad set.
+var ct = (new URLSearchParams(location.search).get('ct') || 'site').replace(/[^a-z0-9-]/gi, '').slice(0, 40);
+document.getElementById('get').href = 'https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=' + ct + '&mt=8';
+</script>
+</html>
