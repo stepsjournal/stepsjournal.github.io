@@ -3,6 +3,7 @@
 <meta name="description" content="Steps is a one-line-a-day goal journal for iPhone. Every evening it asks whether you moved your goals forward.">
 <meta name="apple-itunes-app" content="app-id=6829796742">
 <meta name="theme-color" content="#16181B">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="c8aa36a0-a3f0-453e-82f2-3f86f3219113" data-domains="stepsjournal.github.io"></script>
 <style>
 :root{--bg:#16181B;--surface:#202327;--line:rgba(255,255,255,.09);--text:#EFF1F2;--text2:#A9B0B6;--accent:#A9C4DA;--serif:"New York",ui-serif,"Iowan Old Style",Georgia,serif}
 *{box-sizing:border-box;margin:0}
@@ -46,7 +47,7 @@ footer a{color:var(--accent);text-decoration:none}
     <div class="brand"><img src="assets/icon.png" alt=""><span>Steps: Goal Journal</span></div>
     <h1>Did you move your goals <em>forward</em> today?</h1>
     <p class="lead">Steps asks you this every evening. If you did, you write one sentence about what you actually did, and if you didn't, you tap Not today and get on with your evening.</p>
-    <a class="get btn" id="top" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download Steps for free<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="get btn" id="top" data-place="top" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download Steps for free<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     <p class="note">Opens the App Store, for iPhone</p>
   </div>
 
@@ -67,7 +68,7 @@ footer a{color:var(--accent);text-decoration:none}
 
   <div class="end">
     <p class="sign">Keep going.</p>
-    <a class="get btn" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download Steps for free<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <a class="get btn" data-place="end" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download Steps for free<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
   </div>
 
   <footer><a href="https://sebastien-grdn.github.io/steps-site/support.html">Support</a> · <a href="https://sebastien-grdn.github.io/steps-site/privacy.html">Privacy</a></footer>
@@ -76,13 +77,23 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="bar" id="bar">
   <img src="assets/icon.png" alt="">
   <div><b>Steps: Goal Journal</b><span>Free on iPhone</span></div>
-  <a class="get btn" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download</a>
+  <a class="get btn" data-place="bar" href="https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=site&mt=8">Download</a>
 </div>
 
 <script>
 // Keeps the ad's campaign token (ct) on every App Store link so App Store Connect counts downloads per ad set.
 var ct = (new URLSearchParams(location.search).get('ct') || 'site').replace(/[^a-z0-9-]/gi, '').slice(0, 40);
-document.querySelectorAll('a.get').forEach(function (a) { a.href = 'https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=' + ct + '&mt=8'; });
+document.querySelectorAll('a.get').forEach(function (a) {
+  a.href = 'https://apps.apple.com/app/apple-store/id6829796742?pt=129726534&ct=' + ct + '&mt=8';
+  // Counts the tap in Umami (no cookies), then opens the App Store; never waits more than 0.8 s for Umami.
+  a.addEventListener('click', function (e) {
+    if (!window.umami || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    var done = false, go = function () { if (!done) { done = true; location.href = a.href; } };
+    try { Promise.resolve(umami.track('Download', { ct: ct, place: a.dataset.place })).then(go, go); } catch (err) { go(); }
+    setTimeout(go, 800);
+  });
+});
 // The bottom bar shows once the top download button has scrolled away.
 var bar = document.getElementById('bar');
 if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting && e[0].boundingClientRect.top < 0); }).observe(document.getElementById('top'));
