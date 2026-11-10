@@ -94,6 +94,11 @@ document.querySelectorAll('a.get').forEach(function (a) {
     setTimeout(go, 800);
   });
 });
+// Tells readers from accidental taps: one event once the page has been on screen for 10 seconds.
+var seen = 0, stay = setInterval(function () {
+  if (document.visibilityState !== 'visible') return;
+  if (++seen >= 10 && window.umami) { clearInterval(stay); umami.track('Stayed 10s', { ct: ct }); }
+}, 1000);
 // The bottom bar shows once the top download button has scrolled away.
 var bar = document.getElementById('bar');
 if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { bar.classList.toggle('on', !e[0].isIntersecting && e[0].boundingClientRect.top < 0); }).observe(document.getElementById('top'));
